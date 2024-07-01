@@ -93,3 +93,14 @@ def Oterm1x1(bulk, n_layers, vacuum):
     mask2=(slab.positions[:, 2] >= CuMax) & (slab.symbols=='Cu')
     del slab[mask2]
     return slab
+    
+def dimer1x1(bulk, n_layers, vacuum):
+    slab = cu2o100(bulk, n_layers, vacuum)
+    CuMax = np.max(slab[slab.symbols=='Cu'].positions[:,2])
+    mask2=(slab.positions[:, 2] >= CuMax) & (slab.symbols=='Cu')
+    del slab[mask2]
+    return slab
+    
+def ridgedimerc2x2(bulk, n_layers, vacuum):
+    slab = cu2o100(bulk, n_layers, vacuum)
+    return slab
