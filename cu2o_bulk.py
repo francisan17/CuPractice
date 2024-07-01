@@ -96,11 +96,18 @@ def Oterm1x1(bulk, n_layers, vacuum):
     
 def dimer1x1(bulk, n_layers, vacuum):
     slab = cu2o100(bulk, n_layers, vacuum)
-    CuMax = np.max(slab[slab.symbols=='Cu'].positions[:,2])
-    mask2=(slab.positions[:, 2] >= CuMax) & (slab.symbols=='Cu')
-    del slab[mask2]
+    Cu_max = np.max(slab[slab.symbols=='Cu'].positions[:,2])
+    mask3=(slab.positions[:, 2] >= Cu_max) & (slab.symbols=='Cu') 
+    indices=list()
+    for i in range(len(slab)):
+        if mask3[i]==True:
+            indices.append(i)
+    midpoint = np.mean(slab.positions[indices[:]],axis=0)
+    v=(midpoint-slab.positions[indices[0]])/2
+    slab.positions[indices[0]]+=-v
+    slab.positions[indices[1]]+=v
     return slab
     
 def ridgedimerc2x2(bulk, n_layers, vacuum):
-    slab = cu2o100(bulk, n_layers, vacuum)
+    slab = dimer1x1(bulk, n_layers, vacuum)
     return slab
