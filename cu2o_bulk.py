@@ -108,6 +108,13 @@ def dimer1x1(bulk, n_layers, vacuum):
     slab.positions[indices[1]]+=v
     return slab
     
-def ridgedimerc2x2(bulk, n_layers, vacuum):
-    slab = dimer1x1(bulk, n_layers, vacuum)
+def c2x2(bulk, n_layers, vacuum):
+    slab = Oterm1x1(bulk, n_layers, vacuum)
+    slab=make_supercell(slab, [[1,1,0], [-1,1, 0],  [0,0,1]] )
+    Max_Cu_z = np.max(slab[slab.symbols=='Cu'].positions[:,2]) - 2.0
+    mask2=(slab.positions[:, 2] >= Max_Cu_z) & (slab.symbols=='Cu')
+    del slab[mask2]
+    Max_O_z = np.max(slab[slab.symbols=='Cu'].positions[:,2]) - 0.5
+    mask3=(slab.positions[:, 2] >= Max_O_z) & (slab.symbols=='O')
+    del slab[mask3]
     return slab
