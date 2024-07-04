@@ -22,7 +22,7 @@ if False:
     '''
     
 def cu2o_bulk():
-    bulk=read('/home/lana/Downloads/9007497.cif')
+    bulk=read('/content/9007497.cif')
     #bulk.translate([5.0,5.0,5.0])
     #bulk.wrap()
     return bulk
