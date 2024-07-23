@@ -22,7 +22,7 @@ if False:
     '''
     
 def cu2o_bulk():
-    bulk=read('/content/9007497.cif')
+    bulk=read('9007497.cif')
     #bulk.translate([5.0,5.0,5.0])
     #bulk.wrap()
     return bulk
@@ -48,18 +48,15 @@ def CuD_FCC111(bulk, n_layers, vacuum):
 
 def STO_FCC111(bulk, n_layers, vacuum):
     slab = cu2o111(bulk, n_layers, vacuum)
-    slab=make_supercell(slab, [[2,-1,0], [-1,2, 0],  [0,0,1]] )
+    superslab=make_supercell(slab, [[2,-1,0], [-1,2, 0],  [0,0,1]] )
     STO_z = np.max(slab[slab.symbols=='O'].positions[:,2])
     mask2 = (slab.positions[:, 2] >= STO_z) & (slab.symbols=='O')
     index_to_remove = np.argmax(mask2)
-    print (index_to_remove)
-    slab[index_to_remove].symbol='Au'
-    del slab[index_to_remove]
     return slab
     
 def CuDO_FCC111(bulk, n_layers, vacuum):
     slab = cu2o111(bulk, n_layers, vacuum)
-    slab=make_supercell(slab, [[2,-1,0], [-1,2, 0],  [0,0,1]] )
+    superslab=make_supercell(slab, [[2,-1,0], [-1,2, 0],  [0,0,1]] )
     STO_z = np.max(slab[slab.symbols=='O'].positions[:,2])
     mask2 = (slab.positions[:, 2] >= STO_z) & (slab.symbols=='O')
     index_to_remove = np.argmax(mask2)
@@ -71,7 +68,7 @@ def CuDO_FCC111(bulk, n_layers, vacuum):
     
 def py111(bulk,n_layers, vacuum):
     slab = CuD_FCC111(bulk, n_layers, vacuum)
-    slab=make_supercell(slab, [[2,-1,0], [-1,2, 0],  [0,0,1]] )
+    superslab=make_supercell(slab, [[2,-1,0], [-1,2, 0],  [0,0,1]] )
     O_pos = np.mean(slab.positions[slab.positions[:,2] > 15, :], axis=0) + [2.35,1.3, 3.75]
     Cu_pos = np.mean(slab.positions[slab.positions[:,2] > 15, :], axis=0) + [1.0,0.5, 2.0]
     O = Atoms(symbols='O', positions = [O_pos])
@@ -116,7 +113,7 @@ def dimer1x1(bulk, n_layers, vacuum):
     
 def c2x2(bulk, n_layers, vacuum):
     slab = Oterm1x1(bulk, n_layers, vacuum)
-    slab=make_supercell(slab, [[1,1,0], [-1,1, 0],  [0,0,1]] )
+    superslab=make_supercell(slab, [[1,1,0], [-1,1, 0],  [0,0,1]] )
     Max_Cu_z = np.max(slab[slab.symbols=='Cu'].positions[:,2]) - 2.0
     mask2=(slab.positions[:, 2] >= Max_Cu_z) & (slab.symbols=='Cu')
     del slab[mask2]
@@ -127,11 +124,11 @@ def c2x2(bulk, n_layers, vacuum):
     
 def slab3011(bulk,n_layers,vacuum):
     slab = Oterm1x1(bulk, 4, 10)
-    slab=make_supercell(slab, [[3,0,0], [1,1, 0],  [0,0,1]] )
+    superslab=make_supercell(slab, [[2,-1,0], [1,1, 0], [0,0,1]] )
     Max_Cu_z = np.max(slab[slab.symbols=='Cu'].positions[:,2]) - 2.0
     mask2=(slab.positions[:, 2] >= Max_Cu_z) & (slab.symbols=='Cu')
     del slab[mask2]
-    Max_O_z = np.max(slab[slab.symbols=='Cu'].positions[:,2]) - 0.5
-    mask3=(slab.positions[:, 2] >= Max_O_z) & (slab.symbols=='O')
+    #Max_O_z = np.max(slab[slab.symbols=='Cu'].positions[:,2]) - 0.5
+    #mask3=(slab.positions[:, 2] >= Max_O_z) & (slab.symbols=='O')
     del slab[mask3]
     return slab
