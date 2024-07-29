@@ -106,7 +106,7 @@ def c2x2(bulk, n_layers, vacuum):
     Max_Cu_z = np.max(superslab[superslab.symbols=='Cu'].positions[:,2]) - 2.0
     mask2=(superslab.positions[:, 2] >= Max_Cu_z) & (superslab.symbols=='Cu')
     del superslab[mask2]
-    Max_O_z = np.max(superslab.symbols=='Cu'].positions[:,2]) - 0.5
+    Max_O_z = np.max(superslab[superslab.symbols=='Cu'].positions[:,2]) - 0.5
     mask3=(superpositions[:, 2] >= Max_O_z) & (superslab.symbols=='O')
     del superslab[mask3]
     return superslab
@@ -117,7 +117,4 @@ def slab3011(bulk,n_layers,vacuum):
     Max_Cu_z = np.max(superslab[superslab.symbols=='Cu'].positions[:,2]) - 2.0
     mask2=(superslab.positions[:, 2] >= Max_Cu_z) & (superslab.symbols=='Cu')
     del superslab[mask2]
-    #Max_O_z = np.max(superslab[superslab.symbols=='Cu'].positions[:,2]) - 0.5
-    #mask3=(superslab.positions[:, 2] >= Max_O_z) & (superslab.symbols=='O')
-    #del superslab[mask3]
     return superslab
