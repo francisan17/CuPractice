@@ -1,0 +1,45 @@
+#!/bin/bash --login
+#SBATCH -n 64
+#SBATCH --tasks-per-node=64
+#SBATCH -o out.%J
+#SBATCH -e out.%J
+#SBATCH -t 0-0:19:0
+#SBATCH --account=scw1057
+
+#SBATCH -p compute_amd
+
+# Load the environment
+module purge
+
+module load python/3.10.4-sql
+module load compiler/intel/2018/2
+
+module list
+
+echo $@
+
+export VEDIR="/scratch/$USER/ve310sql_amd"
+
+python3 -m venv $VEDIR
+. $VEDIR/bin/activate
+pip install --upgrade pip
+pip install --upgrade certifi
+pip install numpy==1.26.4 scipy==1.13.1 ase==3.22.1
+pip install mace-torch torch_dftd
+pip install jupyter
+
+export PYTHONPATH=/home/scw1057/software/github/:$PYTHONPATH
+
+export VERSION=231208
+
+
+
+PY_SCRIPT_FN="$1"
+shift
+
+echo "SLURM_JOB_PARTITION=" $SLURM_JOB_PARTITION
+env
+cat $PY_SCRIPT_FN
+
+time python3 -u $PY_SCRIPT_FN $@ > log.$SLURM_JOB_ID  2>&1
+
