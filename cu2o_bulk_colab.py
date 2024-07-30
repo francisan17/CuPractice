@@ -75,11 +75,11 @@ def cu2o100(bulk, n_layers, vacuum):
   slab = surface(bulk, (1,0,0), n_layers, vacuum=vacuum, periodic=True) 
   return slab 
   
-def Cuterm1x1(bulk, n_layers, vacuum):
+def Oterm1x1(bulk, n_layers, vacuum):
     slab = cu2o100(bulk, n_layers, vacuum)
     return slab
     
-def Oterm1x1(bulk, n_layers, vacuum):
+def Cuterm1x1 (bulk, n_layers, vacuum):
     slab = cu2o100(bulk, n_layers, vacuum)
     CuMax = np.max(slab[slab.symbols=='Cu'].positions[:,2])
     mask2=(slab.positions[:, 2] >= CuMax) & (slab.symbols=='Cu')
