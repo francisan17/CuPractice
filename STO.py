@@ -26,7 +26,7 @@ Cu2Otable={}
 n_layers_list=[]
 slab_oxygens_list=[]
 slab_coppers_list=[]
-E_surf_list=[]
+E_cleav_list=[]
 
 
 for n_layers in range(3,11):
@@ -37,10 +37,15 @@ for n_layers in range(3,11):
   slab_coppers = superslab[superslab.symbols=='Cu']
  #print(f"Number of Oxygen atoms in slab: {len(slab_oxygens)}")
 
-  superslab.calc = mace_mp(model="large", dispersion=True, default_dtype="float64", device='cuda')
+  superslab.calc =EMT()             # mace_mp(model="large", dispersion=True, default_dtype="float64", device='cuda')
   E_slab = superslab.get_potential_energy()
   E_cleav = (E_slab - E_bulk * n_layers) / 2 / np.linalg.det(superslab.cell[:2, :2])
   print(f'{n_layers=} {E_cleav=}')
+
+  n_layers_list.append(n_layers)
+  slab_oxygens_list.append(len(slab_oxygens))
+  slab_coppers_list.append(len(slab_coppers))
+  E_cleav_list.append(E_cleav)
 '''
   qn = MDMin(superslab, trajectory=f'STO_{n_layers}.traj')
   qn.run(fmax=0.01)
@@ -54,9 +59,9 @@ for n_layers in range(3,11):
   slab_oxygens_list.append(len(slab_oxygens))
   slab_coppers_list.append(len(slab_coppers))
   E_surf_list.append(E_surf)
-
-df = pd.DataFrame({'Number of Layers': n_layers_list,'Number of Copper Atoms':slab_coppers_list, 'Number of Oxygen Atoms':slab_oxygens_list, 'Surface Energy': E_surf_list})
+'''
+df = pd.DataFrame({'Number of Layers': n_layers_list,'Number of Copper Atoms':slab_coppers_list, 'Number of Oxygen Atoms':slab_oxygens_list, 'Cleavage Energy': E_cleav_list})
 table=tabulate(df, headers = 'keys', tablefmt = 'fancy_grid')
 df.to_csv('STO.csv', index=False)
 print(table)
-'''
+
