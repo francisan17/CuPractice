@@ -41,5 +41,7 @@ echo "SLURM_JOB_PARTITION=" $SLURM_JOB_PARTITION
 env
 cat $PY_SCRIPT_FN
 
+ulimit -s unlimited
+
 time python3 -u $PY_SCRIPT_FN $@ > log.$SLURM_JOB_ID  2>&1
 
