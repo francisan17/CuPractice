@@ -34,7 +34,11 @@ fhi_calc.set(override_warning_libxc="true", # <---- necessary !!!
        #xc_pre=['pbe', '50'],
        spin='none', # if any(init_magmoms) != 0 else 'none',
 <<<<<<< HEAD
+<<<<<<< HEAD
        k_grid=(2,2,2),   # to be used in a 3x2 cell
+=======
+       k_grid=(3,3,1),   # to be used in a 3x2 cell
+>>>>>>> 05c3b73926018a7b7ced2fd17fd445972e199720
 =======
        k_grid=(3,3,1),   # to be used in a 3x2 cell
 >>>>>>> 05c3b73926018a7b7ced2fd17fd445972e199720
@@ -47,18 +51,22 @@ fhi_calc.set(override_warning_libxc="true", # <---- necessary !!!
        #charge_mix_param=0.05,
        occupation_type='gaussian 0.01',
 <<<<<<< HEAD
+<<<<<<< HEAD
        sc_accuracy_etot=1e-5,
        sc_accuracy_forces=1e-3,
        sc_accuracy_rho=5e-3,
        sc_iter_limit=300)
+=======
+       #sc_accuracy_etot=1e-5,
+       #sc_accuracy_forces=1e-3,
+       #sc_accuracy_rho=5e-3,
+       sc_iter_limit=300    )
+>>>>>>> 05c3b73926018a7b7ced2fd17fd445972e199720
 
 
-bulk = cu2o_bulk()
-bulk.set_calculator(sockets_calc)
-ucf = UnitCellFilter(bulk)
-LBFGS(ucf).run(fmax=0.01)
-E_bulk = bulk.get_potential_energy()
+bulk = read('Cu2O_rlxdft.xyz')
 
+<<<<<<< HEAD
 sys.exit(0)
 
 
@@ -101,6 +109,8 @@ for n_layers in range(3,11):
 
 bulk = read('Cu2O_rlxdft.xyz')
 
+=======
+>>>>>>> 05c3b73926018a7b7ced2fd17fd445972e199720
 superslab = STO_FCC111(bulk, n_layers=n_layers, vacuum=10)
 print(f'{superslab=}')
 superslab.calc = socket_calc
