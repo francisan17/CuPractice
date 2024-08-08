@@ -17,30 +17,36 @@ jid = os.environ['SLURM_JOB_ID']
 print ("sys.argv = ", sys.argv)
 set_aims_command(hpc="hawk", basis_set="light", defaults=2020)
 
-#aims_dir=f'/scratch/{os.environ["USER"]}/tmp_aims_{jid}'
-aims_dir=f'/scratch/{os.environ["USER"]}/tmp_aims'
-
+aims_dir=f'/scratch/{os.environ["USER"]}/tmp_aims_{jid}'
 print (f'{aims_dir=}')
+os.mkdir(aims_dir)
+
+n_layers = int(sys.argv[1])
 
 
-sockets_calc, fhi_calc = get_aims_and_sockets_calculator(dimensions=0, logfile=f'{aims_dir}/socketio.log')
+socket_calc, fhi_calc = get_aims_and_sockets_calculator(dimensions=0, logfile=f'{aims_dir}/socketio.log')
 fhi_calc.directory = aims_dir
 
 fhi_calc.parameters.pop("xc")
 fhi_calc.set(override_warning_libxc="true", # <---- necessary !!!
        #override_warning_libxc="True",
        xc='libxc MGGA_X_MBEEF+GGA_C_PBE_SOL',
-       xc_pre=['pbe', '50'],
+       #xc_pre=['pbe', '50'],
        spin='none', # if any(init_magmoms) != 0 else 'none',
-       k_grid=(4,4,4),   # to be used in a 3x2 cell
+<<<<<<< HEAD
+       k_grid=(2,2,2),   # to be used in a 3x2 cell
+=======
+       k_grid=(3,3,1),   # to be used in a 3x2 cell
+>>>>>>> 05c3b73926018a7b7ced2fd17fd445972e199720
        relativistic=('atomic_zora','scalar'),
        #compensate_multipole_errors='True',
-       #use_dipole_correction='True',
+       use_dipole_correction='True',
        compute_forces="true",
-       compute_analytical_stress="true",
+       #compute_analytical_stress="true",
        mixer='pulay',
        #charge_mix_param=0.05,
        occupation_type='gaussian 0.01',
+<<<<<<< HEAD
        sc_accuracy_etot=1e-5,
        sc_accuracy_forces=1e-3,
        sc_accuracy_rho=5e-3,
@@ -56,7 +62,7 @@ E_bulk = bulk.get_potential_energy()
 sys.exit(0)
 
 
-
+'''
 bulk_oxygens = bulk[bulk.symbols=='O']
 #write('bulk.xyz', bulk)
 
@@ -81,22 +87,22 @@ for n_layers in range(3,11):
   E_slab = superslab.get_potential_energy()
   E_cleav = (E_slab - E_bulk * n_layers) / 2 / np.linalg.det(superslab.cell[:2, :2])
   print(f'{n_layers=} {E_cleav=}')
-'''
+
   qn = MDMin(superslab, trajectory=f'STO_{n_layers}.traj')
   qn.run(fmax=0.01)
   E_slab = superslab.get_potential_energy()
+=======
+       #sc_accuracy_etot=1e-5,
+       #sc_accuracy_forces=1e-3,
+       #sc_accuracy_rho=5e-3,
+       sc_iter_limit=300    )
+>>>>>>> 05c3b73926018a7b7ced2fd17fd445972e199720
 
-  ##Calc Surface Energy
-  E_surf = (E_slab - E_bulk * n_layers) / 2 / np.linalg.det(superslab.cell[:2, :2])
-  #print(f'{n_layers=} {E_surf=}')
 
-  n_layers_list.append(n_layers)
-  slab_oxygens_list.append(len(slab_oxygens))
-  slab_coppers_list.append(len(slab_coppers))
-  E_surf_list.append(E_surf)
+bulk = read('Cu2O_rlxdft.xyz')
 
-df = pd.DataFrame({'Number of Layers': n_layers_list,'Number of Copper Atoms':slab_coppers_list, 'Number of Oxygen Atoms':slab_oxygens_list, 'Surface Energy': E_surf_list})
-table=tabulate(df, headers = 'keys', tablefmt = 'fancy_grid')
-df.to_csv('STO.csv', index=False)
-print(table)
-'''
+superslab = STO_FCC111(bulk, n_layers=n_layers, vacuum=10)
+print(f'{superslab=}')
+superslab.calc = socket_calc
+E_slab = superslab.get_potential_energy()
+print(f'{n_layers=} {E_slab=}')
