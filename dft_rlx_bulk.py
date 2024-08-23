@@ -27,10 +27,10 @@ fhi_calc.directory = aims_dir
 
 fhi_calc.parameters.pop("xc")
 fhi_calc.set(override_warning_libxc="true", # <---- necessary !!!
-       xc='libxc MGGA_X_MBEEF+GGA_C_PBE_SOL',
+       xc='libxc MGGA_X_MBEEF+GGA_C_PBE_SOL', #MGGA_X_MBEEF
        xc_pre=['pbe', '50'],
        spin='none', # if any(init_magmoms) != 0 else 'none',
-       k_grid=(3,3,3),   # to be used in a 3x2 cell
+       k_grid=(4,4,4),   # to be used in a 3x2 cell
        relativistic=('atomic_zora','scalar'),
        #compensate_multipole_errors='True',
        #use_dipole_correction='True',
@@ -47,6 +47,9 @@ fhi_calc.set(override_warning_libxc="true", # <---- necessary !!!
 bulk = cu2o_bulk()
 bulk.set_calculator(sockets_calc)
 ucf = UnitCellFilter(bulk)
-LBFGS(ucf).run(fmax=0.01)
+
+#LBFGS(ucf).run(fmax=0.01)
+
 E_bulk = bulk.get_potential_energy()
-write('Cu2O_rlxdft.xyz', bulk)
+print(E_bulk)
+write('bulk_rlxdft.xyz', bulk)
