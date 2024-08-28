@@ -189,7 +189,7 @@ def Bridge_STCl_CuCu(bulk,n_layers,vacuum,Cl_Z_position):
     slabads = slab + Cl_ads
     return slabads
     
-def STNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested function, keep Z positions the same.
+def STNO3(bulk,n_layers,vacuum,NO3_Z_position): 
     slab_initial = cu2o111(bulk, n_layers, vacuum)
     slab= make_supercell(slab_initial, [[4,0,0], [0,4, 0],  [0,0,1]])
     
@@ -200,8 +200,8 @@ def STNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested function, 
     
     Max_O= np.max(slab[slab.symbols=='O'].positions[:,2])
     Max_Cu= np.max(slab[slab.symbols=='Cu'].positions[:,2])
-    N_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [N_X_position,N_Y_position,N_Z_position] 
-    O_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [O_X_position,O_Y_position,O_Z_position] 
+    N_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [N_X_position,N_Y_position,NO3_Z_position] 
+    O_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [O_X_position,O_Y_position,NO3_Z_position] 
     N = Atoms(symbols='N', positions = [N_pos])
     O_ads = Atoms(symbols='O', positions = [O_pos])
 
@@ -217,7 +217,7 @@ def STNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested function, 
     slabads.set_constraint(FixAtoms(mask=mask1))
     return slabads
 
-def CutermNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested function, keep Z positions the same.
+def CutermNO3(bulk,n_layers,vacuum,NO3_Z_position): ##untested function, keep Z positions the same.
     slab_initial = Cuterm1x1(bulk, n_layers, vacuum)
     slab= make_supercell(slab_initial, [[4,0,0], [0,4, 0],  [0,0,1]])
     
@@ -225,11 +225,11 @@ def CutermNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested functi
     N_Y_position=0
     O_X_position=1.3
     O_Y_position=0
-    
+
     Max_O= np.max(slab[slab.symbols=='O'].positions[:,2])
     Max_Cu= np.max(slab[slab.symbols=='Cu'].positions[:,2])
-    N_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [N_X_position,N_Y_position,N_Z_position] 
-    O_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [O_X_position,O_Y_position,O_Z_position] 
+    N_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [N_X_position,N_Y_position,NO3_Z_position] 
+    O_pos = np.mean(slab.positions[slab.positions[:,2] > (Max_Cu and Max_O).all(), :], axis=0) + [O_X_position,O_Y_position,NO3_Z_position] 
     N = Atoms(symbols='N', positions = [N_pos])
     O_ads = Atoms(symbols='O', positions = [O_pos])
 
