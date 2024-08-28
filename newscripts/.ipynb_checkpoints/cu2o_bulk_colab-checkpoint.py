@@ -195,7 +195,7 @@ def STNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested function, 
     
     N_X_position=0
     N_Y_position=0
-    O_X_position=1.3
+    O_X_position=1.4
     O_Y_position=0
     
     Max_O= np.max(slab[slab.symbols=='O'].positions[:,2])
@@ -208,7 +208,7 @@ def STNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested function, 
     Ob= O_ads.copy()
     Ob.translate([-1.4,1.3,0])
     Oc= O_ads.copy()
-    Oc.translate([-2.1,-0.97,0])
+    Oc.translate([-2.4,-1,0])
 
     NO3= O_ads+Ob+Oc+N
     slabads = slab + NO3
@@ -223,7 +223,7 @@ def CutermNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested functi
     
     N_X_position=0
     N_Y_position=0
-    O_X_position=1.3
+    O_X_position=1.4
     O_Y_position=0
     
     Max_O= np.max(slab[slab.symbols=='O'].positions[:,2])
@@ -236,7 +236,7 @@ def CutermNO3(bulk,n_layers,vacuum,N_Z_position,O_Z_position): ##untested functi
     Ob= O_ads.copy()
     Ob.translate([-1.4,1.3,0])
     Oc= O_ads.copy()
-    Oc.translate([-2.1,-0.97,0])
+    Oc.translate([-2.2,-0.75,0])
 
     NO3= O_ads+Ob+Oc+N
     slabads = slab + NO3
